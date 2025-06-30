@@ -11,7 +11,8 @@ import {
   Shield,
   Home,
   BookOpen,
-  Swords
+  Swords,
+  Users
 } from 'lucide-react';
 
 const Navbar = () => {
@@ -80,6 +81,10 @@ const Navbar = () => {
               )}
               
               <NavLink to="/posts" icon={BookOpen}>Objave</NavLink>
+              
+              {isAuthenticated && (
+                <NavLink to="/characters" icon={Users}>Karakteri</NavLink>
+              )}
             </nav>
           </div>
 
@@ -159,6 +164,12 @@ const Navbar = () => {
               <NavLink to="/posts" icon={BookOpen} onClick={() => setIsMenuOpen(false)}>
                 Objave
               </NavLink>
+              
+              {isAuthenticated && (
+                <NavLink to="/characters" icon={Users} onClick={() => setIsMenuOpen(false)}>
+                  Karakteri
+                </NavLink>
+              )}
               
               {isAuthenticated ? (
                 <>

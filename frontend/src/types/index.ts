@@ -189,4 +189,96 @@ export interface CommentsResponse {
       hasPrevPage: boolean;
     };
   };
+}
+
+export interface Character {
+  _id: string;
+  ime: string;
+  rasa: 'human' | 'elf' | 'dwarf' | 'halfling' | 'dragonborn' | 'gnome' | 'half-elf' | 'half-orc' | 'tiefling';
+  klasa: 'barbarian' | 'bard' | 'cleric' | 'druid' | 'fighter' | 'monk' | 'paladin' | 'ranger' | 'rogue' | 'sorcerer' | 'warlock' | 'wizard';
+  background: 'acolyte' | 'criminal' | 'folk-hero' | 'noble' | 'sage' | 'soldier' | 'hermit' | 'entertainer' | 'guild-artisan' | 'outlander';
+  level: number;
+  stats: {
+    strength: number;
+    dexterity: number;
+    constitution: number;
+    intelligence: number;
+    wisdom: number;
+    charisma: number;
+  };
+  skills: string[];
+  proficiencies: string[];
+  equipment: {
+    naziv: string;
+    kolicina: number;
+    opis?: string;
+  }[];
+  spellSlots?: {
+    level1: number;
+    level2: number;
+    level3: number;
+    level4: number;
+    level5: number;
+    level6: number;
+    level7: number;
+    level8: number;
+    level9: number;
+  };
+  slika?: string;
+  backstory: string;
+  vlasnik: User;
+  javno: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateCharacterData {
+  ime: string;
+  rasa: 'human' | 'elf' | 'dwarf' | 'halfling' | 'dragonborn' | 'gnome' | 'half-elf' | 'half-orc' | 'tiefling';
+  klasa: 'barbarian' | 'bard' | 'cleric' | 'druid' | 'fighter' | 'monk' | 'paladin' | 'ranger' | 'rogue' | 'sorcerer' | 'warlock' | 'wizard';
+  background: 'acolyte' | 'criminal' | 'folk-hero' | 'noble' | 'sage' | 'soldier' | 'hermit' | 'entertainer' | 'guild-artisan' | 'outlander';
+  level: number;
+  stats: {
+    strength: number;
+    dexterity: number;
+    constitution: number;
+    intelligence: number;
+    wisdom: number;
+    charisma: number;
+  };
+  skills: string[];
+  proficiencies: string[];
+  equipment: {
+    naziv: string;
+    kolicina: number;
+    opis?: string;
+  }[];
+  spellSlots?: {
+    level1: number;
+    level2: number;
+    level3: number;
+    level4: number;
+    level5: number;
+    level6: number;
+    level7: number;
+    level8: number;
+    level9: number;
+  };
+  backstory: string;
+  javno: boolean;
+}
+
+export interface CharactersResponse {
+  success: boolean;
+  data: {
+    characters: Character[];
+    pagination: {
+      currentPage: number;
+      totalPages: number;
+      totalCharacters: number;
+      charactersPerPage: number;
+      hasNextPage: boolean;
+      hasPrevPage: boolean;
+    };
+  };
 } 

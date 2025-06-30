@@ -13,6 +13,7 @@ import postRoutes from './routes/posts';
 import commentRoutes from './routes/comments';
 import categoryRoutes from './routes/categories';
 import tagRoutes from './routes/tags';
+import characterRoutes from './routes/characters';
 
 dotenv.config();
 
@@ -52,6 +53,7 @@ app.use('/api/posts', postRoutes);
 app.use('/api', commentRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/tags', tagRoutes);
+app.use('/api/characters', characterRoutes);
 
 app.get('/api/health', (req, res) => {
   res.status(200).json({

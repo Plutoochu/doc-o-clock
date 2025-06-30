@@ -18,6 +18,10 @@ import PostDetailsPage from './pages/PostDetailsPage';
 import CreatePostPage from './pages/CreatePostPage';
 import EditPostPage from './pages/EditPostPage';
 import EditUserPage from './pages/EditUserPage';
+import CharactersPage from './pages/CharactersPage';
+import CreateCharacterPage from './pages/CreateCharacterPage';
+import CharacterDetailsPage from './pages/CharacterDetailsPage';
+import EditCharacterPage from './pages/EditCharacterPage';
 
 function App() {
   return (
@@ -35,6 +39,10 @@ function App() {
             {}
             <Route element={<PrivateRoute />}>
               <Route path="profile" element={<ProfilePage />} />
+              <Route path="characters" element={<CharactersPage />} />
+              <Route path="characters/create" element={<CreateCharacterPage />} />
+              <Route path="characters/:id" element={<CharacterDetailsPage />} />
+              <Route path="characters/:id/edit" element={<EditCharacterPage />} />
             </Route>
             
             {}

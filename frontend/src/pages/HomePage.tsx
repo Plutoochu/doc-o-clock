@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Shield, User, Settings, BookOpen, LogIn, Swords } from 'lucide-react';
+import { Shield, User, Settings, BookOpen, LogIn, Swords, Users } from 'lucide-react';
 
 const HomePage = () => {
   const { user, isAuthenticated, isAdmin } = useAuth();
@@ -89,6 +89,17 @@ const HomePage = () => {
             </p>
           </Link>
         )}
+
+        <Link
+          to="/characters"
+          className="bg-white border border-gray-200 p-6 rounded-lg shadow-sm hover:border-red-500 hover:bg-red-50 transition-all"
+        >
+          <Users className="h-8 w-8 mb-3 text-red-500" />
+          <h3 className="text-lg font-semibold mb-2 text-gray-800">D&D Karakteri</h3>
+          <p className="text-gray-600">
+            Kreiraj i upravljaj svojim junacima
+          </p>
+        </Link>
 
         <Link
           to="/posts"
