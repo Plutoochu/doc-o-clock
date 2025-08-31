@@ -14,7 +14,9 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: false,
     minify: 'esbuild',
+    assetsDir: 'assets',
   },
+  base: './',
   server: {
     port: 3000,
     open: true,
