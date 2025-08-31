@@ -1,4 +1,6 @@
-# GuildKeeper
+# Doc-O-Clock
+
+Centralizovana platforma za medicinsku skrb - pronađi i rezerviši termine u poliklinikama, bolnicama i kod privatnih doktora.
 
 ## Setup
 
