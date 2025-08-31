@@ -22,7 +22,7 @@ npm run dev
 
 ## Portovi
 
-- Backend: http://localhost:5000
+- Backend: http://localhost:5001
 - Frontend: http://localhost:3000 
 - Promijeni u .env fajlovima ako je potrebno 
 
