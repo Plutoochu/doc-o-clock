@@ -37,6 +37,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint src/**/*.{ts,tsx}",
-    "lint:fix": "eslint src/**/*.{ts,tsx} --fix"
+    "lint:fix": "eslint src/**/*.{ts,tsx} --fix",
+    "vercel-build": "npm run build"
   }
 }

@@ -11,7 +11,8 @@
     "seed-categories": "ts-node src/scripts/seedCategoriesAndTags.ts",
     "reset-indexes": "ts-node src/scripts/resetIndexes.ts",
     "lint": "eslint src/**/*.ts",
-    "test": "jest"
+    "test": "jest",
+    "vercel-build": "npm run build"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
