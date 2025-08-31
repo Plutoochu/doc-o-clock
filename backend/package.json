@@ -12,7 +12,8 @@
     "reset-indexes": "ts-node src/scripts/resetIndexes.ts",
     "lint": "eslint src/**/*.ts",
     "test": "jest",
-    "vercel-build": "npm run build"
+    "vercel-build": "npm run build",
+    "start:vercel": "node dist/server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
