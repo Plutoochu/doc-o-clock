@@ -106,48 +106,30 @@ const initializeDB = async () => {
   }
 };
 
-// Vercel serverless handler
-export default async (req: any, res: any) => {
-  try {
-    await initializeDB();
-    return app(req, res);
-  } catch (error) {
-    console.error('Handler error:', error);
-    return res.status(500).json({ 
-      success: false, 
-      message: 'Server greška',
-      error: process.env.NODE_ENV === 'development' ? error : undefined
-    });
-  }
-};
-
-// Local development server
+// Standard server startup
 const startServer = async () => {
-  if (process.env.NODE_ENV !== 'production') {
-    try {
-      await connectDB();
-      console.log('✅ Povezan sa MongoDB bazom');
-      
-      // Seed bazu ako je prazna
+  try {
+    await connectDB();
+    console.log('✅ Povezan sa MongoDB bazom');
+    
+    // Seed bazu ako je prazna (samo u development)
+    if (process.env.NODE_ENV !== 'production') {
       try {
         await seedDatabase();
       } catch (seedError) {
         console.warn('⚠️ Seed proces nije uspješan, ali server nastavlja:', seedError);
       }
-      
-      app.listen(PORT, () => {
-        console.log(`🚀 Server pokrenut na portu ${PORT}`);
-        console.log(`📍 Health check: http://localhost:${PORT}/api/health`);
-        console.log(`🌐 Frontend URL: http://localhost:5173`);
-      });
-    } catch (error) {
-      console.error('❌ Greška pri pokretanju servera:', error);
-      process.exit(1);
     }
+    
+    app.listen(PORT, () => {
+      console.log(`🚀 Server pokrenut na portu ${PORT}`);
+      console.log(`📍 Health check: http://localhost:${PORT}/api/health`);
+      console.log(`🌐 Environment: ${process.env.NODE_ENV}`);
+    });
+  } catch (error) {
+    console.error('❌ Greška pri pokretanju servera:', error);
+    process.exit(1);
   }
 };
 
-// Start server only in development
-if (process.env.NODE_ENV !== 'production') {
-  startServer();
-} 
+startServer(); 
