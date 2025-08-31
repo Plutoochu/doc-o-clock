@@ -38,6 +38,6 @@
     "preview": "vite preview",
     "lint": "eslint src/**/*.{ts,tsx}",
     "lint:fix": "eslint src/**/*.{ts,tsx} --fix",
-    "vercel-build": "npm run build"
+    "vercel-build": "npm run build && echo 'Build completed successfully'"
   }
 }
