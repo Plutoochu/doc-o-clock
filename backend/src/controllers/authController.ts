@@ -58,7 +58,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       telefon,
       adresa,
       grad,
-      tip: userType // Ne dozvoljavamo tip kroz javnu registraciju
+      tip: userType
     });
 
     await user.save();

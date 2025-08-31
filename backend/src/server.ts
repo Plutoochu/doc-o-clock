@@ -51,12 +51,34 @@ app.use('/api/doctors', doctorRoutes);
 app.use('/api/clinics', clinicRoutes);
 app.use('/api/appointments', appointmentRoutes);
 
-app.get('/api/health', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Server radi ispravno',
-    timestamp: new Date().toISOString()
-  });
+app.get('/api/health', async (req, res) => {
+  try {
+    // Test MongoDB konekcije
+    const mongoose = await import('mongoose');
+    const dbStatus = mongoose.connection.readyState;
+    const dbStates = ['disconnected', 'connected', 'connecting', 'disconnecting'];
+    
+    res.status(200).json({
+      success: true,
+      message: 'Server radi ispravno',
+      timestamp: new Date().toISOString(),
+      database: {
+        status: dbStates[dbStatus],
+        connected: dbStatus === 1
+      },
+      environment: {
+        nodeEnv: process.env.NODE_ENV,
+        hasMongoUri: !!process.env.MONGODB_URI,
+        hasJwtSecret: !!process.env.JWT_SECRET
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Health check failed',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
 });
 
 app.use(errorHandler);

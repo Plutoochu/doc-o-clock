@@ -62,7 +62,7 @@ export const getAllUsers = async (req: AuthRequest, res: Response): Promise<void
       ukupno: await User.countDocuments(),
       aktivni: await User.countDocuments({ aktivan: true }),
       admini: await User.countDocuments({ tip: 'admin' }),
-      obicniKorisnici: await User.countDocuments({ tip: 'user' })
+      obicniKorisnici: await User.countDocuments({ tip: 'patient' })
     };
 
     res.json({
@@ -156,7 +156,7 @@ export const createUser = async (req: AuthRequest, res: Response): Promise<void>
       password,
       datumRodjenja,
       spol: spol || undefined,
-      tip: tip || 'user',
+      tip: tip || 'patient',
       aktivan: true
     });
 
@@ -343,7 +343,7 @@ export const toggleUserRole = async (req: AuthRequest, res: Response): Promise<v
     }
 
     
-    const newRole = user.tip === 'admin' ? 'user' : 'admin';
+    const newRole = user.tip === 'admin' ? 'patient' : 'admin';
     
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
@@ -465,7 +465,7 @@ export const bulkUserActions = async (req: AuthRequest, res: Response): Promise<
         message = 'Korisnici promijenjeni u administratore';
         break;
       case 'makeUser':
-        updateData = { tip: 'user' };
+        updateData = { tip: 'patient' };
         message = 'Korisnici promijenjeni u obične korisnike';
         break;
       case 'delete':
