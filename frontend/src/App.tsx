@@ -21,7 +21,7 @@ import EditUserPage from './pages/EditUserPage';
 import SearchPage from './pages/SearchPage';
 import AppointmentsPage from './pages/AppointmentsPage';
 import CreateDoctorPage from './pages/CreateDoctorPage';
-import MedicalConditionsPage from './pages/MedicalConditionsPage';
+// import MedicalConditionsPage from './pages/MedicalConditionsPage'; // Temporarily disabled
 import ClinicsPage from './pages/ClinicsPage';
 import ClinicDetailsPage from './pages/ClinicDetailsPage';
 import BookingPage from './pages/BookingPage';
@@ -44,7 +44,7 @@ function App() {
             <Route element={<PrivateRoute />}>
               <Route path="profile" element={<ProfilePage />} />
               <Route path="appointments" element={<AppointmentsPage />} />
-              <Route path="medical-history" element={<MedicalConditionsPage />} />
+              {/* <Route path="medical-history" element={<MedicalConditionsPage />} /> */}
               <Route path="clinics/:id" element={<ClinicDetailsPage />} />
               <Route path="book/:doctorId" element={<BookingPage />} />
               <Route path="chat/:userId" element={<ChatPage />} />

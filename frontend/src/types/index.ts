@@ -1,5 +1,6 @@
 export interface User {
   _id: string;
+  id?: string; // Added for compatibility
   ime: string;
   prezime?: string;
   email: string;
@@ -93,7 +94,7 @@ export interface RegisterData {
   password: string;
   confirmPassword: string;
   datumRodjenja: Date;
-  spol: 'muški' | 'ženski' | 'ostalo';
+  spol: 'muški' | 'ženski' | 'ostalo' | null;
 }
 
 export interface UpdateUserData {
@@ -380,10 +381,13 @@ export interface Clinic {
     hitnaSluzba?: string;
     informacije?: string;
     zakazivanje?: string;
+    telefon?: string; // Added for compatibility
   };
   lokacija: {
     latitude: number;
     longitude: number;
+    lat?: number; // Added for compatibility
+    lng?: number; // Added for compatibility
   };
   parking: boolean;
   pristupInvalidima: boolean;

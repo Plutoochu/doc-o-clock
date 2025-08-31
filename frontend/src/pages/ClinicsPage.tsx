@@ -31,7 +31,7 @@ const ClinicsPage = () => {
       website: 'https://kcus.ba',
       logo: '',
       slike: [],
-      tip: 'Bolnica',
+      tip: 'bolnica',
       specialnosti: ['Kardiologija', 'Neurologija', 'Ortopedija', 'Ginekologija', 'Pedijatrija', 'Onkologija', 'Transplantacija'],
       usluge: [
         'Hitna medicinska pomoć 24/7',
@@ -83,7 +83,7 @@ const ClinicsPage = () => {
       website: 'https://ukcs.ba',
       logo: '',
       slike: [],
-      tip: 'Bolnica',
+      tip: 'bolnica',
       specialnosti: ['Kardiologija', 'Ginekologija', 'Ortopedija', 'Neurologija', 'Pedijatrija', 'Oftalmologija'],
       usluge: [
         'Hitna medicinska pomoć',
@@ -133,7 +133,7 @@ const ClinicsPage = () => {
       website: 'https://avicena.ba',
       logo: '',
       slike: [],
-      tip: 'Poliklinika',
+      tip: 'poliklinika',
       specialnosti: ['Kardiologija', 'Dermatologija', 'Oftalmologija', 'Stomatologija', 'Estetska medicina'],
       usluge: [
         'Preventivni pregledi',
@@ -184,7 +184,7 @@ const ClinicsPage = () => {
       website: 'https://dentalpremium.ba',
       logo: '',
       slike: [],
-      tip: 'Klinika',
+      tip: 'poliklinika',
       specialnosti: ['Stomatologija', 'Oralna hirurgija', 'Ortodoncija', 'Endodoncija'],
       usluge: [
         'Estetska stomatologija',
@@ -235,7 +235,7 @@ const ClinicsPage = () => {
       website: 'https://beautyhealthspa.ba',
       logo: '',
       slike: [],
-      tip: 'Poliklinika',
+      tip: 'poliklinika',
       specialnosti: ['Dermatologija', 'Plastična hirurgija', 'Ginekologija', 'Endokrinologija'],
       usluge: [
         'Anti-aging tretmani',
