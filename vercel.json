@@ -5,7 +5,8 @@
       "src": "backend/package.json",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["backend/src/**"]
+        "includeFiles": ["backend/src/**"],
+        "maxLambdaSize": "50mb"
       }
     },
     {
@@ -33,10 +34,5 @@
       "src": "/(.*)",
       "dest": "/frontend/index.html"
     }
-  ],
-  "functions": {
-    "backend/src/server.ts": {
-      "maxDuration": 30
-    }
-  }
+  ]
 }
