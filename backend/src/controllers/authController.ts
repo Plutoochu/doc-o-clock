@@ -32,7 +32,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const { ime, prezime, email, password, datumRodjenja, spol } = req.body;
+    const { ime, prezime, email, password, datumRodjenja, spol, telefon, adresa, grad } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -43,8 +43,10 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
+    // Javna registracija uvijek kreira korisnike
+    // Jedini admin se kreira ako je baza prazna (first user)
     const userCount = await User.countDocuments();
-    const userType = userCount === 0 ? 'admin' : 'user';
+    const userType = userCount === 0 ? 'admin' : 'patient';
 
     const user = new User({
       ime,
@@ -53,7 +55,10 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       password,
       datumRodjenja,
       spol,
-      tip: userType
+      telefon,
+      adresa,
+      grad,
+      tip: userType // Ne dozvoljavamo tip kroz javnu registraciju
     });
 
     await user.save();
@@ -73,6 +78,9 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         spol: user.spol,
         tip: user.tip,
         slika: user.slika,
+        telefon: user.telefon,
+        adresa: user.adresa,
+        grad: user.grad,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt
       }
@@ -133,6 +141,9 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         spol: user.spol,
         tip: user.tip,
         slika: user.slika,
+        telefon: user.telefon,
+        adresa: user.adresa,
+        grad: user.grad,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt
       }
@@ -168,6 +179,9 @@ export const me = async (req: AuthRequest, res: Response): Promise<void> => {
         spol: user.spol,
         tip: user.tip,
         slika: user.slika,
+        telefon: user.telefon,
+        adresa: user.adresa,
+        grad: user.grad,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt
       }

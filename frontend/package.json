@@ -1,8 +1,8 @@
 {
-  "name": "user-management-frontend",
+  "name": "doc-o-clock-frontend",
   "version": "1.0.0",
   "type": "module",
-  "description": "Frontend za aplikaciju upravljanja korisnicima",
+  "description": "Frontend za Doc-O-Clock medicinsku aplikaciju",
   "private": true,
   "dependencies": {
     "react": "^18.3.1",

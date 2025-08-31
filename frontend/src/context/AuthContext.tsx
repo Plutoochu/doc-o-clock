@@ -12,6 +12,9 @@ interface AuthContextType {
   isLoading: boolean;
   isAuthenticated: boolean;
   isAdmin: boolean;
+  isPatient: boolean;
+  isDoctor: boolean;
+  isClinicAdmin: boolean;
 }
 
 interface RegisterData {
@@ -21,6 +24,10 @@ interface RegisterData {
   password: string;
   datumRodjenja: string;
   spol?: 'muški' | 'ženski' | 'ostalo' | null;
+  // tip se ne šalje kroz javnu registraciju - uvijek patient
+  telefon?: string;
+  adresa?: string;
+  grad?: string;
 }
 
 interface AuthProviderProps {
@@ -31,7 +38,7 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
 
 
 axios.defaults.baseURL = API_URL;
@@ -99,7 +106,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       localStorage.setItem('token', newToken);
       axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
     } catch (error: any) {
-      throw new Error(error.response?.data?.message || 'Greška pri registraciji');
+      // Debugging informacije
+      console.error('Registration error:', error);
+      
+      let message = 'Greška pri registraciji';
+      if (error.response?.data?.message) {
+        message = error.response.data.message;
+      } else if (error.code === 'ERR_NETWORK') {
+        message = 'Backend server nije dostupan';
+      } else if (error.response?.status === 500) {
+        message = 'Greška servera - proverite backend konzolu za detalje';
+      }
+      
+      throw new Error(message);
     }
   };
 
@@ -128,7 +147,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     updateUser,
     isLoading,
     isAuthenticated: !!user,
-    isAdmin: user?.tip === 'admin'
+    isAdmin: user?.tip === 'admin',
+    isPatient: user?.tip === 'patient',
+    isDoctor: user?.tip === 'doctor',
+    isClinicAdmin: user?.tip === 'clinic_admin'
   };
 
   return (

@@ -1,43 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { UserPlus, Users, FileText, Plus, BarChart3, ArrowRight, Construction } from 'lucide-react';
-import AddUserModal from '../components/AddUserModal';
+import { 
+  UserPlus, 
+  Users, 
+  Stethoscope, 
+  Building2, 
+  Calendar, 
+  BarChart3, 
+  ArrowRight, 
+  Plus,
+  Activity
+} from 'lucide-react';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
     ukupniKorisnici: 0,
     aktivniKorisnici: 0,
-    admini: 0,
-    ukupniPostovi: 0,
-    aktivniPostovi: 0
+    doktori: 0,
+    korisnici: 0,
+    klinike: 0,
+    termini: 0
   });
   const [loading, setLoading] = useState(true);
-  const [showAddUserModal, setShowAddUserModal] = useState(false);
 
   const fetchStats = async () => {
     try {
       setLoading(true);
       
-      const usersResponse = await axios.get('/users?limit=1');
-      if (usersResponse.data.success) {
-        const userStats = usersResponse.data.data.stats;
-        setStats(prev => ({
-          ...prev,
-          ukupniKorisnici: userStats.ukupno,
-          aktivniKorisnici: userStats.aktivni,
-          admini: userStats.admini
-        }));
-      }
-
-      const postsResponse = await axios.get('/posts?limit=1');
-      if (postsResponse.data.success) {
-        setStats(prev => ({
-          ...prev,
-          ukupniPostovi: postsResponse.data.data.pagination.totalPosts || 0,
-          aktivniPostovi: postsResponse.data.data.posts?.length || 0
-        }));
-      }
+      // Mock podaci - trebat će API pozivi kasnije
+      setStats({
+        ukupniKorisnici: 156,
+        aktivniKorisnici: 142,
+        doktori: 23,
+        korisnici: 128,
+        klinike: 8,
+        termini: 347
+      });
     } catch (error) {
       console.error('Greška pri učitavanju statistika:', error);
     } finally {
@@ -49,164 +48,157 @@ const AdminDashboard = () => {
     fetchStats();
   }, []);
 
-  const adminActions = [
-    {
-      title: 'Upravljanje Korisnicima',
-      description: 'Pregled, uređivanje i upravljanje korisnicima',
-      link: '/users',
-      color: 'from-purple-500 to-pink-500',
-      stats: `${stats.ukupniKorisnici} korisnika (${stats.admini} admina)`,
-      icon: Users
-    },
-    {
-      title: 'Upravljanje Postovima',
-      description: 'Moderiraj kampanje i postove',
-      link: '/posts',
-      color: 'from-blue-500 to-cyan-500',
-      stats: `${stats.ukupniPostovi} postova`,
-      icon: FileText
-    },
-    {
-      title: 'Kreiraj Post',
-      description: 'Dodaj novu kampanju ili post',
-      link: '/create-post',
-      color: 'from-green-500 to-emerald-500',
-      stats: 'Kreiranje sadržaja',
-      icon: Plus
-    },
-    {
-      title: 'Sistem Statistike',
-      description: 'Pregled analitike i izvještaja',
-      link: '#',
-      color: 'from-orange-500 to-red-500',
-      stats: 'Uskoro dostupno',
-      disabled: true,
-      icon: BarChart3
-    }
-  ];
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-rose-600"></div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-white p-6">
-              <div className="max-w-7xl mx-auto">
-          {/* Naslov stranice */}
-          <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-800 mb-4">
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="container mx-auto px-4 py-6">
+          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <BarChart3 className="h-6 w-6 text-rose-600" />
             Admin Dashboard
           </h1>
-          <p className="text-xl text-gray-600">
-            Vladajte svojim digitalnim carstvom
-          </p>
-          
-          {/* Dugme za dodavanje korisnika */}
-          <div className="mt-8 flex justify-center">
-            <button
-              onClick={() => setShowAddUserModal(true)}
-              className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-            >
-              <UserPlus size={20} />
-              Dodaj novog korisnika
-            </button>
+          <p className="text-gray-600 mt-1">Upravljanje Doc O'Clock platformom</p>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-6">
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Ukupno korisnika</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.ukupniKorisnici}</p>
+                <p className="text-sm text-green-600">{stats.aktivniKorisnici} aktivnih</p>
+              </div>
+              <Users className="h-8 w-8 text-blue-600" />
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Doktori</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.doktori}</p>
+                <p className="text-sm text-gray-500">Verifikovanih specijalizovanih</p>
+              </div>
+              <Stethoscope className="h-8 w-8 text-rose-600" />
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Korisnici</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.korisnici}</p>
+                <p className="text-sm text-gray-500">Registrovanih korisnika</p>
+              </div>
+              <Activity className="h-8 w-8 text-green-600" />
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Klinike</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.klinike}</p>
+                <p className="text-sm text-gray-500">Verificirane ustanove</p>
+              </div>
+              <Building2 className="h-8 w-8 text-purple-600" />
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Termini</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.termini}</p>
+                <p className="text-sm text-gray-500">Ukupno zakazanih</p>
+              </div>
+              <Calendar className="h-8 w-8 text-orange-600" />
+            </div>
           </div>
         </div>
 
-        {/* Statistike sistema */}
-        {loading ? (
-          <div className="text-center mb-12">
-            <div className="text-gray-800 text-lg">Učitavanje statistika...</div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-            <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-gray-800">{stats.ukupniKorisnici}</div>
-                <div className="text-gray-600">Ukupno korisnika</div>
-              </div>
+        {/* Quick Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Add Doctor */}
+          <Link
+            to="/doctors/create"
+            className="bg-white border border-gray-200 p-6 rounded-lg hover:border-rose-500 hover:bg-rose-50 transition-all group"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <Stethoscope className="h-8 w-8 text-rose-500 group-hover:text-rose-600" />
+              <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-rose-500" />
             </div>
-            <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-green-600">{stats.aktivniKorisnici}</div>
-                <div className="text-gray-600">Aktivni korisnici</div>
-              </div>
-            </div>
-            <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-yellow-600">{stats.admini}</div>
-                <div className="text-gray-600">Administratori</div>
-              </div>
-            </div>
-            <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600">{stats.ukupniPostovi}</div>
-                <div className="text-gray-600">Ukupno postova</div>
-              </div>
-            </div>
-          </div>
-        )}
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Dodaj doktora</h3>
+            <p className="text-gray-600">Kreiraj account za doktora ili bolničko osoblje</p>
+          </Link>
 
-        {/* Admin opcije i navigacija */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {adminActions.map((action, index) => {
-            let hoverColorClass = '';
-            switch(index) {
-              case 0: hoverColorClass = 'hover:border-purple-500 hover:bg-purple-50'; break;
-              case 1: hoverColorClass = 'hover:border-blue-500 hover:bg-blue-50'; break;
-              case 2: hoverColorClass = 'hover:border-green-500 hover:bg-green-50'; break;
-              case 3: hoverColorClass = 'hover:border-orange-500 hover:bg-orange-50'; break;
-              default: hoverColorClass = 'hover:border-blue-500 hover:bg-blue-50'; break;
-            }
+          {/* Add Clinic */}
+          <div className="bg-white border border-gray-200 p-6 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition-all group cursor-pointer">
+            <div className="flex items-center justify-between mb-4">
+              <Building2 className="h-8 w-8 text-purple-500 group-hover:text-purple-600" />
+              <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-purple-500" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Dodaj kliniku</h3>
+            <p className="text-gray-600">Registruj novu medicinsku ustanovu</p>
+          </div>
 
-            const IconComponent = action.icon;
-            
-            return action.disabled ? (
-              <div key={index} className="opacity-50 cursor-not-allowed">
-                <div className="bg-gray-100 border border-gray-200 p-8 rounded-lg shadow-sm text-gray-800">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <IconComponent className="w-8 h-8 text-gray-500" />
-                      <h3 className="text-2xl font-bold">{action.title}</h3>
-                    </div>
-                    <Construction className="w-8 h-8 text-gray-400" />
-                  </div>
-                  <p className="text-lg mb-4">{action.description}</p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">{action.stats}</span>
-                    <span className="text-sm bg-gray-300 px-3 py-1 rounded-full">
-                      Uskoro
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <Link key={index} to={action.link} className="transform hover:scale-105 transition-transform duration-200">
-                <div className={`bg-white border border-gray-200 ${hoverColorClass} p-8 rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 text-gray-800`}>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <IconComponent className="w-8 h-8 text-gray-600" />
-                      <h3 className="text-2xl font-bold">{action.title}</h3>
-                    </div>
-                    <ArrowRight className="w-8 h-8 text-gray-400" />
-                  </div>
-                  <p className="text-lg mb-4">{action.description}</p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">{action.stats}</span>
-                    <span className="text-sm bg-gray-100 px-3 py-1 rounded-full hover:bg-gray-200 transition-colors">
-                      Otvori
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
+          {/* Manage Users */}
+          <Link
+            to="/users"
+            className="bg-white border border-gray-200 p-6 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all group"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <Users className="h-8 w-8 text-blue-500 group-hover:text-blue-600" />
+              <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-blue-500" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Upravljaj korisnicima</h3>
+            <p className="text-gray-600">Pregled, uređivanje i administracija korisnika</p>
+          </Link>
+
+          {/* View Appointments */}
+          <div className="bg-white border border-gray-200 p-6 rounded-lg hover:border-orange-500 hover:bg-orange-50 transition-all group cursor-pointer">
+            <div className="flex items-center justify-between mb-4">
+              <Calendar className="h-8 w-8 text-orange-500 group-hover:text-orange-600" />
+              <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-orange-500" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Pregled termina</h3>
+            <p className="text-gray-600">Statistike i upravljanje terminima</p>
+          </div>
+
+          {/* System Settings */}
+          <div className="bg-white border border-gray-200 p-6 rounded-lg hover:border-gray-500 hover:bg-gray-50 transition-all group cursor-pointer">
+            <div className="flex items-center justify-between mb-4">
+              <BarChart3 className="h-8 w-8 text-gray-500 group-hover:text-gray-600" />
+              <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Sistemske postavke</h3>
+            <p className="text-gray-600">Konfiguracija i održavanje sistema</p>
+          </div>
+
+          {/* Reports */}
+          <div className="bg-white border border-gray-200 p-6 rounded-lg hover:border-green-500 hover:bg-green-50 transition-all group cursor-pointer">
+            <div className="flex items-center justify-between mb-4">
+              <BarChart3 className="h-8 w-8 text-green-500 group-hover:text-green-600" />
+              <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-green-500" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Izvještaji</h3>
+            <p className="text-gray-600">Analitika i business intelligence</p>
+          </div>
         </div>
-
-        <AddUserModal
-          isOpen={showAddUserModal}
-          onClose={() => setShowAddUserModal(false)}
-          onUserAdded={fetchStats}
-        />
       </div>
     </div>
   );
 };
 
-export default AdminDashboard; 
+export default AdminDashboard;

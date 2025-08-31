@@ -9,19 +9,17 @@ import { errorHandler } from './middleware/errorHandler';
 
 import authRoutes from './routes/auth';
 import userRoutes from './routes/users';
-import postRoutes from './routes/posts';
-import commentRoutes from './routes/comments';
-import categoryRoutes from './routes/categories';
-import tagRoutes from './routes/tags';
-import characterRoutes from './routes/characters';
+import doctorRoutes from './routes/doctors';
+import clinicRoutes from './routes/clinics';
+import appointmentRoutes from './routes/appointments';
+import { seedDatabase } from './utils/seedData';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-connectDB();
-
+// connectDB se poziva u startServer funkciji
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
@@ -49,11 +47,9 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/posts', postRoutes);
-app.use('/api', commentRoutes);
-app.use('/api/categories', categoryRoutes);
-app.use('/api/tags', tagRoutes);
-app.use('/api/characters', characterRoutes);
+app.use('/api/doctors', doctorRoutes);
+app.use('/api/clinics', clinicRoutes);
+app.use('/api/appointments', appointmentRoutes);
 
 app.get('/api/health', (req, res) => {
   res.status(200).json({
@@ -72,7 +68,29 @@ app.use('*', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server pokrenut na portu ${PORT}`);
-  console.log(`Health check: http://localhost:${PORT}/api/health`);
-}); 
+const startServer = async () => {
+  try {
+    await connectDB();
+    console.log('✅ Povezan sa MongoDB bazom');
+    
+    // Seed bazu ako je prazna
+    if (process.env.NODE_ENV !== 'production') {
+      try {
+        await seedDatabase();
+      } catch (seedError) {
+        console.warn('⚠️ Seed proces nije uspješan, ali server nastavlja:', seedError);
+      }
+    }
+    
+    app.listen(PORT, () => {
+      console.log(`🚀 Server pokrenut na portu ${PORT}`);
+      console.log(`📍 Health check: http://localhost:${PORT}/api/health`);
+      console.log(`🌐 Frontend URL: http://localhost:5173`);
+    });
+  } catch (error) {
+    console.error('❌ Greška pri pokretanju servera:', error);
+    process.exit(1);
+  }
+};
+
+startServer(); 

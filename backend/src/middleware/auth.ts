@@ -48,11 +48,46 @@ export const authenticate = async (req: AuthRequest, res: Response, next: NextFu
   }
 };
 
+export const authenticateToken = authenticate;
+
 export const requireAdmin = (req: AuthRequest, res: Response, next: NextFunction): void => {
   if (req.user?.tip !== 'admin') {
     res.status(403).json({
       success: false,
       message: 'Pristup dozvoljen samo administratorima'
+    });
+    return;
+  }
+  next();
+};
+
+export const requireDoctor = (req: AuthRequest, res: Response, next: NextFunction): void => {
+  if (req.user?.tip !== 'doctor' && req.user?.tip !== 'admin') {
+    res.status(403).json({
+      success: false,
+      message: 'Pristup dozvoljen samo doktorima'
+    });
+    return;
+  }
+  next();
+};
+
+export const requirePatient = (req: AuthRequest, res: Response, next: NextFunction): void => {
+  if (req.user?.tip !== 'patient' && req.user?.tip !== 'admin') {
+    res.status(403).json({
+      success: false,
+      message: 'Pristup dozvoljen samo korisnicima'
+    });
+    return;
+  }
+  next();
+};
+
+export const requireClinicAdmin = (req: AuthRequest, res: Response, next: NextFunction): void => {
+  if (req.user?.tip !== 'clinic_admin' && req.user?.tip !== 'admin') {
+    res.status(403).json({
+      success: false,
+      message: 'Pristup dozvoljen samo administratorima klinika'
     });
     return;
   }

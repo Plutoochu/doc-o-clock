@@ -1,7 +1,5 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
-import Post from '../models/Post';
-import Comment from '../models/Comment';
 import { AuthRequest } from '../middleware/auth';
 import bcrypt from 'bcryptjs';
 import { deleteProfileImage } from '../middleware/upload';
@@ -637,8 +635,7 @@ export const deleteOwnAccount = async (req: AuthRequest, res: Response): Promise
       deleteProfileImage(path.basename(user.slika));
     }
 
-    await Post.deleteMany({ autor: currentUser.id });
-    await Comment.deleteMany({ autor: currentUser.id });
+    // TODO: Obrisati povezane medicinske podatke (appointments, medical history, etc.)
     await User.findByIdAndDelete(currentUser.id);
 
     res.json({

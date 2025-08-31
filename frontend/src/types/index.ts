@@ -5,10 +5,16 @@ export interface User {
   email: string;
   datumRodjenja: string;
   spol?: 'muški' | 'ženski' | 'ostalo';
-  tip: 'admin' | 'user';
+  tip: 'admin' | 'patient' | 'doctor' | 'clinic_admin';
   slika?: string;
   aktivan: boolean;
   poslednjaPrijava?: string;
+  // Medicinska polja
+  telefon?: string;
+  adresa?: string;
+  grad?: string;
+  jmbg?: string;
+  zdravstveniKarton?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -277,6 +283,170 @@ export interface CharactersResponse {
       totalPages: number;
       totalCharacters: number;
       charactersPerPage: number;
+      hasNextPage: boolean;
+      hasPrevPage: boolean;
+    };
+  };
+}
+
+// Medicinski tipovi
+export interface Doctor {
+  _id: string;
+  user: User;
+  specialnosti: string[];
+  bolnica: string;
+  opis?: string;
+  iskustvo: number;
+  obrazovanje: string[];
+  certifikati: string[];
+  jezici: string[];
+  cijenaKonsultacije: number;
+  rating: {
+    prosjecna: number;
+    brojOcjena: number;
+  };
+  radnoVrijeme: {
+    ponedjeljak?: { pocetak: string; kraj: string };
+    utorak?: { pocetak: string; kraj: string };
+    srijeda?: { pocetak: string; kraj: string };
+    cetvrtak?: { pocetak: string; kraj: string };
+    petak?: { pocetak: string; kraj: string };
+    subota?: { pocetak: string; kraj: string };
+    nedjelja?: { pocetak: string; kraj: string };
+  };
+  dostupnost: {
+    datum: string;
+    termini: string[];
+  }[];
+  verifikovan: boolean;
+  aktivan: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Appointment {
+  _id: string;
+  korisnik: User;
+  doktor: Doctor;
+  datum: string;
+  vrijeme: string;
+  specialnost: string;
+  razlog?: string;
+  napomene?: string;
+  status: 'zakazano' | 'potvrdeno' | 'zavrseno' | 'otkazano' | 'propusteno';
+  cijena: number;
+  trajanje: number;
+  online: boolean;
+  linkZaOnline?: string;
+  tipPlacanja: 'gotovina' | 'kartica' | 'osiguranje';
+  placeno: boolean;
+  podsjetnik: {
+    poslan: boolean;
+    datumSlanja?: string;
+  };
+  ocjena?: {
+    vrijednost: number;
+    komentar?: string;
+    datum: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Clinic {
+  _id: string;
+  naziv: string;
+  opis?: string;
+  adresa: string;
+  grad: string;
+  telefon: string;
+  email?: string;
+  website?: string;
+  logo?: string;
+  slike: string[];
+  tip: 'bolnica' | 'poliklinika' | 'ordinacija' | 'apoteka' | 'laboratorija';
+  specialnosti: string[];
+  usluge: string[];
+  radnoVrijeme: {
+    ponedjeljak?: { pocetak: string; kraj: string };
+    utorak?: { pocetak: string; kraj: string };
+    srijeda?: { pocetak: string; kraj: string };
+    cetvrtak?: { pocetak: string; kraj: string };
+    petak?: { pocetak: string; kraj: string };
+    subota?: { pocetak: string; kraj: string };
+    nedjelja?: { pocetak: string; kraj: string };
+  };
+  kontakt: {
+    hitnaSluzba?: string;
+    informacije?: string;
+    zakazivanje?: string;
+  };
+  lokacija: {
+    latitude: number;
+    longitude: number;
+  };
+  parking: boolean;
+  pristupInvalidima: boolean;
+  rating: {
+    prosjecna: number;
+    brojOcjena: number;
+  };
+  verifikovana: boolean;
+  aktivna: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Search i Filter tipovi
+export interface DoctorFilters {
+  search?: string;
+  specialnost?: string;
+  grad?: string;
+  spol?: 'muški' | 'ženski';
+  jezik?: string;
+  rating?: number;
+  minCijena?: number;
+  maxCijena?: number;
+  dostupanDanas?: boolean;
+  online?: boolean;
+  sortBy?: 'rating' | 'cijena' | 'iskustvo' | 'ime';
+  sortOrder?: 'asc' | 'desc';
+}
+
+export interface CreateAppointmentData {
+  doktor: string;
+  datum: string;
+  vrijeme: string;
+  specialnost: string;
+  razlog?: string;
+  online: boolean;
+  tipPlacanja: 'gotovina' | 'kartica' | 'osiguranje';
+}
+
+export interface AppointmentsResponse {
+  success: boolean;
+  data: {
+    appointments: Appointment[];
+    pagination: {
+      currentPage: number;
+      totalPages: number;
+      totalAppointments: number;
+      appointmentsPerPage: number;
+      hasNextPage: boolean;
+      hasPrevPage: boolean;
+    };
+  };
+}
+
+export interface DoctorsResponse {
+  success: boolean;
+  data: {
+    doctors: Doctor[];
+    pagination: {
+      currentPage: number;
+      totalPages: number;
+      totalDoctors: number;
+      doctorsPerPage: number;
       hasNextPage: boolean;
       hasPrevPage: boolean;
     };

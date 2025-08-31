@@ -18,10 +18,14 @@ import PostDetailsPage from './pages/PostDetailsPage';
 import CreatePostPage from './pages/CreatePostPage';
 import EditPostPage from './pages/EditPostPage';
 import EditUserPage from './pages/EditUserPage';
-import CharactersPage from './pages/CharactersPage';
-import CreateCharacterPage from './pages/CreateCharacterPage';
-import CharacterDetailsPage from './pages/CharacterDetailsPage';
-import EditCharacterPage from './pages/EditCharacterPage';
+import SearchPage from './pages/SearchPage';
+import AppointmentsPage from './pages/AppointmentsPage';
+import CreateDoctorPage from './pages/CreateDoctorPage';
+import MedicalConditionsPage from './pages/MedicalConditionsPage';
+import ClinicsPage from './pages/ClinicsPage';
+import ClinicDetailsPage from './pages/ClinicDetailsPage';
+import BookingPage from './pages/BookingPage';
+import ChatPage from './pages/ChatPage';
 
 function App() {
   return (
@@ -33,16 +37,17 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
-            <Route path="posts" element={<PostsPage />} />
-            <Route path="posts/:id" element={<PostDetailsPage />} />
+            <Route path="search" element={<SearchPage />} />
+            <Route path="clinics" element={<ClinicsPage />} />
             
             {}
             <Route element={<PrivateRoute />}>
               <Route path="profile" element={<ProfilePage />} />
-              <Route path="characters" element={<CharactersPage />} />
-              <Route path="characters/create" element={<CreateCharacterPage />} />
-              <Route path="characters/:id" element={<CharacterDetailsPage />} />
-              <Route path="characters/:id/edit" element={<EditCharacterPage />} />
+              <Route path="appointments" element={<AppointmentsPage />} />
+              <Route path="medical-history" element={<MedicalConditionsPage />} />
+              <Route path="clinics/:id" element={<ClinicDetailsPage />} />
+              <Route path="book/:doctorId" element={<BookingPage />} />
+              <Route path="chat/:userId" element={<ChatPage />} />
             </Route>
             
             {}
@@ -51,8 +56,7 @@ function App() {
               <Route path="users" element={<UsersPage />} />
               <Route path="users/:id" element={<UserDetailsPage />} />
               <Route path="users/:id/edit" element={<EditUserPage />} />
-              <Route path="create-post" element={<CreatePostPage />} />
-              <Route path="posts/:id/edit" element={<EditPostPage />} />
+              <Route path="doctors/create" element={<CreateDoctorPage />} />
             </Route>
           </Route>
           

@@ -75,7 +75,7 @@ const RegisterPage = () => {
         prezime: data.prezime || null,
         email: data.email,
         password: data.password,
-        confirmPassword: data.confirmPassword,
+        // confirmPassword se ne šalje na backend - validira se samo u frontend-u
         datumRodjenja: data.datumRodjenja,
         spol: data.spol || null
       };

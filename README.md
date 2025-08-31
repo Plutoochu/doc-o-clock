@@ -1,4 +1,4 @@
-# Doc-O-Clock
+# Doc O'Clock
 
 Centralizovana platforma za medicinsku skrb - pronađi i rezerviši termine u poliklinikama, bolnicama i kod privatnih doktora.
 
@@ -7,7 +7,7 @@ Centralizovana platforma za medicinsku skrb - pronađi i rezerviši termine u po
 ```bash
 # Kloniraj repo
 git clone <repo-url>
-cd eldar-muratovic-praksa
+cd doc-o-clock
 
 # Backend
 cd backend
@@ -66,21 +66,22 @@ npm run dev
 - Tailwind CSS setup
 
 **Backend:**
-- MongoDB modeli (User, Post)
-- API routes struktura (auth, users, posts)
+- MongoDB modeli (User, Doctor, Appointment, Clinic)
+- API routes struktura (auth, doctors, appointments)
 - Server setup sa middleware (helmet, cors, rate limiting)
 - Database konekcija
-- Seed script za test podatke
+- Medicinski modeli i validacije
 
 **Frontend:**
-- React komponente i stranice (placeholder)
-- AuthContext za upravljanje korisnicima
-- Layout komponenta
-- Routing setup
+- React komponente i stranice (Doc O'Clock medicinska tema)
+- AuthContext za upravljanje korisnicima (patient, doctor, admin tipovi)
+- Layout komponenta sa medicinskim dizajnom
+- Routing setup za medicinske stranice
 - Environment konfiguracija
 
 **Database:**
-- MongoDB Atlas konekcija
-- User model sa validacijom
-- Post model sa populacijom autora
-- Seed podaci za testiranje
+- MongoDB Atlas konekcija (doc-o-clock baza)
+- User model sa medicinskim poljima
+- Doctor model sa specialnostima i rating sistemom
+- Appointment model za rezervacije termina
+- Clinic model za medicinske ustanove

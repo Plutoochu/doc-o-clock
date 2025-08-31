@@ -8,10 +8,16 @@ export interface IUser extends Document {
   password: string;
   datumRodjenja: Date;
   spol?: 'muški' | 'ženski' | 'ostalo';
-  tip: 'admin' | 'user';
+  tip: 'admin' | 'patient' | 'doctor' | 'clinic_admin';
   slika?: string;
   aktivan: boolean;
   poslednjaPrijava?: Date;
+  // Medicinska polja
+  telefon?: string;
+  adresa?: string;
+  grad?: string;
+  jmbg?: string;
+  zdravstveniKarton?: string;
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
@@ -58,8 +64,8 @@ const UserSchema = new Schema<IUser>({
   tip: {
     type: String,
     required: true,
-    enum: ['admin', 'user'],
-    default: 'user'
+    enum: ['admin', 'patient', 'doctor', 'clinic_admin'],
+    default: 'patient'
   },
   slika: {
     type: String,
@@ -73,6 +79,36 @@ const UserSchema = new Schema<IUser>({
   poslednjaPrijava: {
     type: Date,
     required: false
+  },
+  // Medicinska polja
+  telefon: {
+    type: String,
+    required: false,
+    trim: true,
+    maxlength: [20, 'Telefon ne može biti duži od 20 karaktera']
+  },
+  adresa: {
+    type: String,
+    required: false,
+    trim: true,
+    maxlength: [200, 'Adresa ne može biti duža od 200 karaktera']
+  },
+  grad: {
+    type: String,
+    required: false,
+    trim: true,
+    maxlength: [50, 'Grad ne može biti duži od 50 karaktera']
+  },
+  jmbg: {
+    type: String,
+    required: false,
+    trim: true,
+    match: [/^\d{13}$/, 'JMBG mora imati 13 cifara']
+  },
+  zdravstveniKarton: {
+    type: String,
+    required: false,
+    trim: true
   }
 }, {
   timestamps: true
