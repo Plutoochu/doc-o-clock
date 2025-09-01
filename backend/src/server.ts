@@ -110,24 +110,13 @@ const initializeDB = async () => {
 const startServer = async () => {
   try {
     await connectDB();
-    console.log('✅ Povezan sa MongoDB bazom');
-    
-    // Seed bazu ako je prazna (samo u development)
-    if (process.env.NODE_ENV !== 'production') {
-      try {
-        await seedDatabase();
-      } catch (seedError) {
-        console.warn('⚠️ Seed proces nije uspješan, ali server nastavlja:', seedError);
-      }
-    }
+    console.log('Uspjesno povezano sa MongoDB bazom');
     
     app.listen(PORT, () => {
-      console.log(`🚀 Server pokrenut na portu ${PORT}`);
-      console.log(`📍 Health check: http://localhost:${PORT}/api/health`);
-      console.log(`🌐 Environment: ${process.env.NODE_ENV}`);
+      console.log(`Server pokrenut na portu ${PORT}`);
     });
   } catch (error) {
-    console.error('❌ Greška pri pokretanju servera:', error);
+    console.error('Greska pri pokretanju servera:', error);
     process.exit(1);
   }
 };
